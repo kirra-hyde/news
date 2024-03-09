@@ -48,5 +48,28 @@ function putStoriesOnPage() {
     $allStoriesList.append($story);
   }
 
+  $submitStoryForm.hide();
   $allStoriesList.show();
 }
+
+/** Handle story submission.
+ *
+ * Get form data.  Have a Story instance made and added to StoryList w/ that data.
+ * Have the Stories from the updated StoryList put on the page.
+ */
+
+async function submitStory(evt) {
+  evt.preventDefault();
+
+  const author = $("#submit-author").val() || "Unknown";
+  const title = $("#submit-title").val();
+  const url = $("#submit-url").val();
+
+  const story = { author, title, url };
+
+  await storyList.addStory(currentUser, story);
+
+  putStoriesOnPage();
+}
+
+$submitStoryForm.on("submit", submitStory);

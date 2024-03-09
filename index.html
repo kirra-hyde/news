@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Hack or Snooze</title>
-  <link rel="stylesheet" 
+  <link rel="stylesheet"
         href="https://www.unpkg.com/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="stylesheet" href="css/site.css">
   <link rel="stylesheet" href="css/user.css">
@@ -33,6 +33,9 @@
 <nav>
   <div class="navbar-brand">
     <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
+  </div>
+  <div>
+    <a class="nav-link hidden" href="#" id="nav-submit-story">Submit</a>
   </div>
   <div class="nav-right">
     <a class="nav-link" href="#" id="nav-login">login/signup</a>
@@ -86,6 +89,26 @@
       <input id="signup-password" autocomplete="new-password" type="password">
     </div>
     <button type="submit">create account</button>
+  </form>
+</section>
+
+<!-- Add story form -->
+<section class="container">
+  <form id="submit-story-form" class="hidden">
+    <h4>Submit Story</h4>
+    <div>
+      <label for="submit-author">Author</label>
+      <input id="submit-author">
+    </div>
+    <div>
+      <label for="submit-title">Title</label>
+      <input id="submit-title" required>
+    </div>
+    <div>
+      <label for="submit-url">URL</label>
+      <input type="url" id="submit-url" required>
+    </div>
+    <button type="submit">Submit Story</button>
   </form>
 </section>
 

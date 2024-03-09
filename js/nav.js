@@ -34,5 +34,16 @@ function updateNavOnLogin() {
   $(".main-nav-links").show();
   $navLogin.hide();
   $navLogOut.show();
+  $navSubmitStory.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+/** Show story submission form on click on "submit" button */
+
+function navSubmitStoryClick(evt) {
+  evt.preventDefault();
+  hidePageComponents();
+  $submitStoryForm.show();
+}
+
+$navSubmitStory.on("click", navSubmitStoryClick);
