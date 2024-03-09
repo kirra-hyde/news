@@ -73,8 +73,8 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory(user, newStory) {
-    const { author, title, url } = newStory;
+  async addStory(user, storyData) {
+    const { author, title, url } = storyData;
 
     // Add story data to API
     const resp = await axios ({

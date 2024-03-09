@@ -41,6 +41,7 @@ function updateNavOnLogin() {
 /** Show story submission form on click on "submit" button */
 
 function navSubmitStoryClick(evt) {
+  console.debug("navSubmitStoryClick");
   evt.preventDefault();
   hidePageComponents();
   $submitStoryForm.show();

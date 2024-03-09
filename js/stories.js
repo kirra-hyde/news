@@ -59,17 +59,21 @@ function putStoriesOnPage() {
  */
 
 async function submitStory(evt) {
+  console.debug("submitStory")
   evt.preventDefault();
 
   const author = $("#submit-author").val() || "Unknown";
   const title = $("#submit-title").val();
   const url = $("#submit-url").val();
 
-  const story = { author, title, url };
+  const storyData = { author, title, url };
 
-  await storyList.addStory(currentUser, story);
+  const story = await storyList.addStory(currentUser, storyData);
 
-  putStoriesOnPage();
+  const $story = generateStoryMarkup(story);
+  $allStoriesList.prepend($story);
+
+  $submitStoryForm.trigger("reset");
 }
 
 $submitStoryForm.on("submit", submitStory);
