@@ -110,7 +110,47 @@ function saveUserCredentialsInLocalStorage() {
 function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
 
+  hidePageComponents();
+  putStoriesOnPage();
   $allStoriesList.show();
 
   updateNavOnLogin();
 }
+
+/** Favorites or un-favorites stories when star icon is clicked
+ *
+ * If story is not favorited, makes it a favorite:
+ *  - Adds fill to star icon
+ *  - Has Story added to current User's favorites list, and has API updated
+ *
+ * If story is favorited, un-favorites it:
+ *  - Removes fill from star icon
+ *  - Has Story removed from current User's favorites, and has API updated
+ */
+
+async function toggleFavorite(evt) {
+  evt.preventDefault();
+  console.debug("toggleFavorite");
+
+  const $star = $(evt.target);
+  const storyId = $star.parent().attr("id");
+  const story = await Story.getStory(storyId);
+
+  const isItFavorite = currentUser.checkFavorite(storyId);
+
+  if (!isItFavorite) {
+    $star.removeClass("bi-star");
+    $star.addClass("bi-star-fill");
+
+    await currentUser.addFavorite(story);
+  } else {
+    $star.removeClass("bi-star-fill");
+    $star.addClass("bi-star");
+
+    await currentUser.removeFavorite(story);
+  }
+}
+
+$body.on("click", "i.star", toggleFavorite);
+
+

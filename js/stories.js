@@ -17,14 +17,21 @@ async function getAndShowStoriesOnStart() {
  * - story: an instance of Story
  *
  * Returns the markup for the story.
+ * If current User, markup has clickable icon for favoriting/unfavoriting Stories.
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+  let filled = "";
+  if (currentUser) {
+    filled = currentUser.checkFavorite(story.storyId) ?
+      "bi bi-star-fill star" :
+      "bi bi-star star";
+  }
   return $(`
       <li id="${story.storyId}">
+        <i class="${filled}"></i>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -35,20 +42,35 @@ function generateStoryMarkup(story) {
     `);
 }
 
-/** Gets list of stories from server, generates their HTML, and puts on page. */
+/** Have HTML generated for all Stories in storyList, and put on page. */
 
 function putStoriesOnPage() {
   console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 
-  // loop through all of our stories and generate HTML for them
+  // loop through all of our Stories and have their HTML generated
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
     $allStoriesList.append($story);
   }
 
-  $submitStoryForm.hide();
+  $allStoriesList.show();
+}
+
+/** Have HTML generated for Stories in currentUser's favorites, and put on page. */
+
+function putFavoritesOnPage() {
+  console.debug("putFavoritesOnPage");
+
+  $allStoriesList.empty();
+
+  //loop through current User's favorited Stories and have their HTML generated
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story);
+    $allStoriesList.append($story);
+  }
+
   $allStoriesList.show();
 }
 
@@ -56,6 +78,7 @@ function putStoriesOnPage() {
  *
  * Get form data.  Have a Story instance made and added to StoryList w/ that data.
  * Have the Stories from the updated StoryList put on the page.
+ * Navigate to stories page.
  */
 
 async function submitStory(evt) {
@@ -74,6 +97,8 @@ async function submitStory(evt) {
   $allStoriesList.prepend($story);
 
   $submitStoryForm.trigger("reset");
+  hidePageComponents();
+  putStoriesOnPage();
 }
 
 $submitStoryForm.on("submit", submitStory);

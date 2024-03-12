@@ -27,6 +27,21 @@ class Story {
     // UNIMPLEMENTED: complete this function!
     return "hostname.com";
   }
+
+  /** Get a story's data from API. Use data to make Story instance. Return Story.
+   *
+   * Take storyId: string of a story's ID
+   * Return Story instance: { title, author, url, username, storyId, createdAt }
+   */
+
+  static async getStory(storyId) {
+    const resp = await axios ({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: "GET"
+    });
+
+    return new Story(resp.data.story);
+  }
 }
 
 
@@ -210,5 +225,54 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+
+  /** Add Story instance to User's favorites list, and update API accordingly.
+   *
+   * - story: Story instance to be added to favorites
+   */
+
+  async addFavorite(story) {
+    // Add to favorites in API
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "POST",
+      data: {token: this.loginToken}
+    });
+
+    //Add to User favorites
+    this.favorites.push(story);
+  }
+
+  /** Remove Story instance from User's favorites list, and update API accordingly.
+   *
+   * - story: Story instance to be removed from favorites
+   */
+
+  async removeFavorite(story) {
+    // Remove from favorites in API
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "DELETE",
+      data: {token: this.loginToken}
+    });
+
+    //Remove from User favorites
+    let storyInd =
+        this.favorites.findIndex(favorite => favorite.storyId === story.storyId);
+
+    if (storyInd >= 0) {
+      this.favorites.splice(storyInd, 1);
+    }
+  }
+
+  /** Checks whether a story is a favorite of the current User
+   *
+   * Takes storyId: string of a story's ID
+   * Returns boolean: true if story is on User's list of favorites, else false.
+   */
+
+  checkFavorite(storyId) {
+    return this.favorites.some(favorite => favorite.storyId === storyId);
   }
 }
