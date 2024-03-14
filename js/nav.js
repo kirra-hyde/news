@@ -17,14 +17,14 @@ $body.on("click", "#nav-all", navAllStories);
 
 /** Show logged in user's favorited stories when click "Favorites" */
 
-function navFavorites(evt) {
+function navFavoritesClick(evt) {
   console.debug("navFavorites");
   evt.preventDefault();
   hidePageComponents();
   putFavoritesOnPage();
 }
 
-$navFavorites.on("click", navFavorites);
+$navFavorites.on("click", navFavoritesClick);
 
 /** Show login/signup on click on "login" */
 
@@ -45,8 +45,6 @@ function updateNavOnLogin() {
   $(".main-nav-links").show();
   $navLogin.hide();
   $navLogOut.show();
-  $navSubmitStory.show();
-  $navFavorites.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
 

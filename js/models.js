@@ -24,8 +24,8 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    const url = new URL(this.url);
+    return url.hostname;
   }
 
   /** Get a story's data from API. Use data to make Story instance. Return Story.
@@ -258,12 +258,8 @@ class User {
     });
 
     //Remove from User favorites
-    let storyInd =
-        this.favorites.findIndex(favorite => favorite.storyId === story.storyId);
-
-    if (storyInd >= 0) {
-      this.favorites.splice(storyInd, 1);
-    }
+    this.favorites =
+        this.favorites.filter(favorite => favorite.storyId !== story.storyId);
   }
 
   /** Checks whether a story is a favorite of the current User

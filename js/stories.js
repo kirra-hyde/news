@@ -26,12 +26,12 @@ function generateStoryMarkup(story) {
   let filled = "";
   if (currentUser) {
     filled = currentUser.checkFavorite(story.storyId) ?
-      "bi bi-star-fill star" :
-      "bi bi-star star";
+      "bi bi-star-fill" :
+      "bi bi-star";
   }
   return $(`
       <li id="${story.storyId}">
-        <i class="${filled}"></i>
+        <i class="${filled} star"></i>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>

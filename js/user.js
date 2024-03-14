@@ -111,6 +111,7 @@ function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
 
   hidePageComponents();
+  // re-display stories so favorite stars will appear
   putStoriesOnPage();
   $allStoriesList.show();
 
@@ -136,17 +137,11 @@ async function toggleFavorite(evt) {
   const storyId = $star.parent().attr("id");
   const story = await Story.getStory(storyId);
 
-  const isItFavorite = currentUser.checkFavorite(storyId);
+  $star.toggleClass("bi-star bi-star-fill");
 
-  if (!isItFavorite) {
-    $star.removeClass("bi-star");
-    $star.addClass("bi-star-fill");
-
+  if ($star.hasClass("bi-star-fill")) {
     await currentUser.addFavorite(story);
   } else {
-    $star.removeClass("bi-star-fill");
-    $star.addClass("bi-star");
-
     await currentUser.removeFavorite(story);
   }
 }
