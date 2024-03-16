@@ -45,7 +45,7 @@ function updateNavOnLogin() {
   $(".main-nav-links").show();
   $navLogin.hide();
   $navLogOut.show();
-  $navUserProfile.text(`${currentUser.username}`).show();
+  $username.text(`${currentUser.username}`).show();
 }
 
 /** Show story submission form on click on "submit" button */
