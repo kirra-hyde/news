@@ -21,10 +21,14 @@ async function login(evt) {
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.login(username, password);
 
-  $loginForm.trigger("reset");
+  if (currentUser) {
+    $loginForm.trigger("reset");
 
-  saveUserCredentialsInLocalStorage();
-  updateUIOnUserLogin();
+    saveUserCredentialsInLocalStorage();
+    updateUIOnUserLogin();
+  } else {
+    $("#login-errors").text("Username or password incorrect");
+  }
 }
 
 $loginForm.on("submit", login);
