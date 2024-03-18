@@ -82,7 +82,7 @@ function putFavoritesOnPage() {
  */
 
 async function submitStory(evt) {
-  console.debug("submitStory")
+  console.debug("submitStory");
   evt.preventDefault();
 
   const author = $("#submit-author").val() || "Unknown";

@@ -35,7 +35,7 @@ class Story {
    */
 
   static async getStory(storyId) {
-    const resp = await axios ({
+    const resp = await axios({
       url: `${BASE_URL}/stories/${storyId}`,
       method: "GET"
     });
@@ -92,7 +92,7 @@ class StoryList {
     const { author, title, url } = storyData;
 
     // Add story data to API
-    const resp = await axios ({
+    const resp = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
       data: {
@@ -123,20 +123,18 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
 
-    // instantiate Story instances for the user's favorites and ownStories
+    // instantiate Story instances for the user's favorites
     this.favorites = favorites.map(s => new Story(s));
-    this.ownStories = ownStories.map(s => new Story(s));
 
     // store the login token on the user so it's easy to find for API calls.
     this.loginToken = token;
@@ -165,7 +163,6 @@ class User {
           name: user.name,
           createdAt: user.createdAt,
           favorites: user.favorites,
-          ownStories: user.stories
         },
         response.data.token
       );
@@ -195,7 +192,6 @@ class User {
           name: user.name,
           createdAt: user.createdAt,
           favorites: user.favorites,
-          ownStories: user.stories
         },
         response.data.token
       );
@@ -223,7 +219,6 @@ class User {
           name: user.name,
           createdAt: user.createdAt,
           favorites: user.favorites,
-          ownStories: user.stories
         },
         token
       );
@@ -243,7 +238,7 @@ class User {
     await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "POST",
-      data: {token: this.loginToken}
+      data: { token: this.loginToken }
     });
 
     //Add to User favorites
@@ -260,12 +255,12 @@ class User {
     await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "DELETE",
-      data: {token: this.loginToken}
+      data: { token: this.loginToken }
     });
 
     //Remove from User favorites
     this.favorites =
-        this.favorites.filter(favorite => favorite.storyId !== story.storyId);
+      this.favorites.filter(favorite => favorite.storyId !== story.storyId);
   }
 
   /** Checks whether a story is a favorite of the current User
